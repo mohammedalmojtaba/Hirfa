@@ -9,12 +9,11 @@
     .container { max-width: 400px; margin: 0 auto; padding: 20px; }
     
     header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 30px 20px; border-radius: 25px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-    /* حاوية اللوغو الأصلية */
     .logo-container { width: 120px; height: 120px; margin: 0 auto 15px; }
     .brand-title { font-size: 28px; font-weight: 900; margin: 0; color: #fff; }
-    .brand-subtitle { font-size: 18px; font-weight: bold; color: #10b981; margin-top: 5px; letter-spacing: 1px; }
+    .brand-subtitle { font-size: 18px; font-weight: bold; color: #10b981; margin-top: 5px; }
+    .slogan { color: #fbbf24; font-size: 14px; margin-top: 5px; font-weight: bold; }
 
-    /* تصميم الأزرار */
     .nav-container { background: #e2e8f0; padding: 5px; border-radius: 16px; display: flex; gap: 5px; margin-bottom: 25px; }
     .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; background: transparent; color: #64748b; transition: all 0.3s ease; }
     .nav-btn.active { background: #10b981; color: white; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
@@ -45,6 +44,7 @@
       </div>
       <h1 class="brand-title">حرفة</h1>
       <div class="brand-subtitle">HIRFA</div>
+      <div class="slogan">الأقرب إليك</div>
     </header>
 
     <div class="nav-container">
@@ -60,7 +60,7 @@
         <button class="btn-action" style="background:#f59e0b" onclick="checkOrder()">عرض البيانات</button>
         <div id="order-result" style="margin-top:15px; font-weight:bold;"></div>
       </div>
-      <input type="text" id="search-text" placeholder="🔍 بحث باسم الحرفي..." oninput="filterData()">
+      <input type="text" id="search-text" placeholder="🔍 بحث باسم المدينة أو الحي..." oninput="filterData()">
       <div id="craftsmen-list"></div>
     </main>
 
@@ -70,6 +70,8 @@
         <input type="text" id="reg-name" placeholder="الاسم الكامل">
         <input type="text" id="reg-phone" placeholder="رقم الهاتف">
         <input type="text" id="reg-city" placeholder="المدينة">
+        <input type="text" id="reg-neighborhood" placeholder="الحي">
+        <input type="text" id="craft-name" placeholder="اسم الحرفة (مثل: سباك، كهربائي)">
         <button class="btn-save" onclick="saveFullProfile()">حفظ الملف الشخصي</button>
       </div>
     </section>
@@ -137,7 +139,8 @@
       data.forEach(c => {
         list.innerHTML += `<div class="card">
           <strong style="font-size:18px">${c.name}</strong><br>
-          <small style="color:#666">${c.city}</small><br>
+          <small style="color:#666">📍 ${c.city} - ${c.neighborhood}</small><br>
+          <small style="color:#0ea5e9; font-weight:bold;">🛠 ${c.craft}</small><br>
           <button class="btn-action" onclick="requestContact('${c.name}')">طلب التواصل</button>
         </div>`;
       });
@@ -194,20 +197,22 @@
       await addDoc(collection(db, "craftsmen"), { 
         name: document.getElementById('reg-name').value, 
         phone: document.getElementById('reg-phone').value,
-        city: document.getElementById('reg-city').value 
+        city: document.getElementById('reg-city').value,
+        neighborhood: document.getElementById('reg-neighborhood').value,
+        craft: document.getElementById('craft-name').value
       });
       alert("تم التسجيل بنجاح!"); location.reload();
     };
 
     window.filterData = () => { 
       const q = document.getElementById('search-text').value.toLowerCase(); 
-      renderList(allCraftsmen.filter(c => c.name.toLowerCase().includes(q))); 
+      renderList(allCraftsmen.filter(c => c.city.toLowerCase().includes(q) || c.neighborhood.toLowerCase().includes(q))); 
     };
 
     window.loadAdminCraftsmen = async () => { 
       const docs = await getDocs(collection(db, "craftsmen")); 
       let html = ''; 
-      docs.forEach(d => html += `<div class="card">${d.data().name} <button onclick="deleteCraftsman('${d.id}')" style="background:red; color:white; border:none; padding:5px; border-radius:5px">حذف</button></div>`); 
+      docs.forEach(d => html += `<div class="card">${d.data().name} (${d.data().city}) <button onclick="deleteCraftsman('${d.id}')" style="background:red; color:white; border:none; padding:5px; border-radius:5px">حذف</button></div>`); 
       document.getElementById('admin-craftsmen-list').innerHTML = html; 
     };
 
