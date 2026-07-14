@@ -5,28 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>حرفة | HIRFA</title>
   <style>
-    body { font-family: sans-serif; background-color: #f8fafc; margin: 0; padding: 0; color: #1e293b; direction: rtl; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
     .container { max-width: 400px; margin: 0 auto; padding: 20px; }
     
-    header { background: linear-gradient(to right, #0f172a, #1e293b); color: white; padding: 25px; border-radius: 25px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-    /* حجم اللوغو الأكبر والمميز */
+    header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 30px 20px; border-radius: 25px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    /* حاوية اللوغو الأصلية */
     .logo-container { width: 120px; height: 120px; margin: 0 auto 15px; }
     .brand-title { font-size: 28px; font-weight: 900; margin: 0; color: #fff; }
     .brand-subtitle { font-size: 18px; font-weight: bold; color: #10b981; margin-top: 5px; letter-spacing: 1px; }
-    
-    .search-panel { background: #fff; padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
-    .nav-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
-    button { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 12px; cursor: pointer; font-weight: bold; background: white; }
-    button.active { background: #10b981; color: white; border: none; }
-    
+
+    /* تصميم الأزرار */
+    .nav-container { background: #e2e8f0; padding: 5px; border-radius: 16px; display: flex; gap: 5px; margin-bottom: 25px; }
+    .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; background: transparent; color: #64748b; transition: all 0.3s ease; }
+    .nav-btn.active { background: #10b981; color: white; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
+
     .card { background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 12px; box-sizing: border-box; }
-    .btn-action { background: #0ea5e9; color: white; width: 100%; padding: 10px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 12px; box-sizing: border-box; }
+    .btn-action { background: #0ea5e9; color: white; width: 100%; padding: 12px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
     .btn-save { background: #10b981; color: white; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
     
     .hidden { display: none; }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: white; padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: white; padding: 30px; border-radius: 25px; width: 80%; max-width: 300px; text-align: center; }
   </style>
 </head>
 <body>
@@ -34,18 +34,12 @@
   <div class="container">
     <header>
       <div class="logo-container">
-        <!-- كود الـ SVG الأصلي الكامل -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
           <rect width="200" height="200" rx="42" fill="#090D16"/>
           <path d="M62,62 L54,67 L62,72 Z" fill="#94A3B8"/>
           <path d="M62,77 L54,82 L62,87 Z" fill="#94A3B8"/>
-          <path d="M62,92 L54,97 L62,102 Z" fill="#94A3B8"/>
-          <path d="M62,107 L54,112 L62,117 Z" fill="#94A3B8"/>
           <rect x="62" y="50" width="16" height="70" rx="4" fill="#94A3B8" />
           <rect x="122" y="64" width="16" height="56" rx="4" fill="#B45309" />
-          <rect x="120" y="48" width="28" height="12" rx="2" fill="#E2E8F0"/>
-          <rect x="122" y="60" width="16" height="5" fill="#E2E8F0"/>
-          <path d="M78,85 L106,85 L94,95 L122,95" stroke="#F59E0B" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.25"/>
           <path d="M78,85 L106,85 L94,95 L122,95" stroke="#FBBF24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         </svg>
       </div>
@@ -53,17 +47,20 @@
       <div class="brand-subtitle">HIRFA</div>
     </header>
 
-    <div class="nav-buttons">
-      <button id="btn-customer" class="active">تصفح</button>
-      <button id="btn-craftsman">تسجيل</button>
-      <button id="btn-admin" onclick="showAdminLogin()">الادارة</button>
+    <div class="nav-container">
+      <button id="btn-customer" class="nav-btn active" onclick="switchTab('customer')">تصفح</button>
+      <button id="btn-craftsman" class="nav-btn" onclick="switchTab('craftsman')">تسجيل</button>
+      <button id="btn-admin" class="nav-btn" onclick="switchTab('admin')">الادارة</button>
     </div>
 
     <main id="view-customer">
-      <div class="search-panel">
-        <input type="text" id="search-text" placeholder="بحث بالاسم أو التخصص..." oninput="filterData()">
-        <input type="text" id="search-city" placeholder="المدينة" oninput="filterData()">
+      <div class="card">
+        <h3>هل لديك كود طلب؟</h3>
+        <input type="text" id="check-code" placeholder="أدخل كود الطلب">
+        <button class="btn-action" style="background:#f59e0b" onclick="checkOrder()">عرض البيانات</button>
+        <div id="order-result" style="margin-top:15px; font-weight:bold;"></div>
       </div>
+      <input type="text" id="search-text" placeholder="🔍 بحث باسم الحرفي..." oninput="filterData()">
       <div id="craftsmen-list"></div>
     </main>
 
@@ -71,13 +68,9 @@
       <div class="card">
         <h3>بيانات الحرفي</h3>
         <input type="text" id="reg-name" placeholder="الاسم الكامل">
+        <input type="text" id="reg-phone" placeholder="رقم الهاتف">
         <input type="text" id="reg-city" placeholder="المدينة">
-        <input type="text" id="reg-neighborhood" placeholder="الحي">
-        <input type="text" id="craft-name" placeholder="اسم الحرفة">
-        <input type="number" id="craft-price" placeholder="السعر">
-        <button type="button" class="btn-action" style="background:#64748b" onclick="addServiceToList()">إضافة حرفة</button>
-        <div id="services-preview" style="margin-bottom: 15px; font-size: 12px; color: #666;"></div>
-        <button type="button" class="btn-save" onclick="saveFullProfile()">حفظ الملف</button>
+        <button class="btn-save" onclick="saveFullProfile()">حفظ الملف الشخصي</button>
       </div>
     </section>
 
@@ -88,31 +81,28 @@
         <button class="btn-save" onclick="checkAdmin()">دخول</button>
       </div>
       <div id="admin-panel" class="hidden">
-        <h3>طلبات العملاء</h3>
+        <h3>إدارة الطلبات</h3>
         <div id="orders-list"></div>
-        <hr>
-        <button onclick="loadAdminCraftsmen()" class="btn-action" style="background:#64748b;">إدارة الحرفيين</button>
+        <hr style="margin:20px 0; border:0; border-top:1px solid #eee">
+        <button onclick="loadAdminCraftsmen()" class="btn-action" style="background:#64748b;">قائمة الحرفيين</button>
         <div id="admin-craftsmen-list"></div>
-        <button onclick="location.reload()" class="btn-action" style="background:#ef4444;">خروج</button>
+        <button onclick="location.reload()" class="btn-action" style="background:#ef4444;">تسجيل خروج</button>
       </div>
     </section>
   </div>
 
   <div id="payment-modal" class="modal">
     <div class="modal-content">
-      <h3>تأكيد الطلب</h3>
-      <div style="background: #f1f5f9; padding: 10px; border-radius: 10px;">
-        حساب: 3767723<br>باسم: محمد المجتبى عصام
-      </div>
-      <div id="order-code" style="font-size: 24px; font-weight: bold; color: #10b981; margin: 10px 0;"></div>
-      <p>أرسل صورة الإيصال للواتساب: +249999119052</p>
-      <button onclick="closeModal()" style="width: 100%; padding: 10px; border-radius: 10px; border: none;">إغلاق</button>
+      <h3>تم إرسال الطلب!</h3>
+      <div id="order-code" style="font-size: 28px; font-weight: bold; color: #10b981; margin: 15px 0;"></div>
+      <p style="font-size:14px; color:#666">يرجى تحويل المبلغ وحفظ الكود للمتابعة.</p>
+      <button onclick="closeModal()" class="btn-action">تم</button>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const db = getFirestore(initializeApp({
       apiKey: "AIzaSyD1Ilg9Ot87m6lYG2mntiwoSXBPtQK6xsY",
@@ -124,7 +114,15 @@
     }));
 
     let allCraftsmen = [];
-    let myServices = [];
+
+    window.switchTab = (tab) => {
+      document.getElementById('view-customer').classList.add('hidden');
+      document.getElementById('view-craftsman').classList.add('hidden');
+      document.getElementById('view-admin').classList.add('hidden');
+      document.getElementById('view-' + tab).classList.remove('hidden');
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + tab).classList.add('active');
+    };
 
     async function initData() {
       const docs = await getDocs(collection(db, "craftsmen"));
@@ -138,77 +136,83 @@
       list.innerHTML = '';
       data.forEach(c => {
         list.innerHTML += `<div class="card">
-          <strong>${c.name}</strong><br><small>${c.city}</small>
+          <strong style="font-size:18px">${c.name}</strong><br>
+          <small style="color:#666">${c.city}</small><br>
           <button class="btn-action" onclick="requestContact('${c.name}')">طلب التواصل</button>
         </div>`;
       });
     }
 
-    window.filterData = () => {
-      const q = document.getElementById('search-text').value.toLowerCase();
-      const filtered = allCraftsmen.filter(c => c.name.toLowerCase().includes(q));
-      renderList(filtered);
-    };
-
-    window.addServiceToList = () => {
-      myServices.push({ name: document.getElementById('craft-name').value, price: document.getElementById('craft-price').value });
-      document.getElementById('services-preview').innerHTML += `<div>تمت الإضافة</div>`;
-    };
-
-    window.saveFullProfile = async () => {
-      await addDoc(collection(db, "craftsmen"), { name: document.getElementById('reg-name').value, city: document.getElementById('reg-city').value, services: myServices });
-      alert("تم الحفظ!"); location.reload();
-    };
-
     window.requestContact = async (name) => {
       const code = "H-" + Math.floor(100000 + Math.random() * 900000);
+      await addDoc(collection(db, "orders"), { code, craftsman: name, status: "pending", timestamp: new Date().toISOString() });
       document.getElementById('order-code').innerText = code;
       document.getElementById('payment-modal').style.display = 'flex';
-      await addDoc(collection(db, "orders"), { code, craftsman: name, timestamp: new Date().toISOString() });
     };
 
-    window.closeModal = () => document.getElementById('payment-modal').style.display = 'none';
-
-    window.showAdminLogin = () => {
-      document.getElementById('view-customer').classList.add('hidden');
-      document.getElementById('view-craftsman').classList.add('hidden');
-      document.getElementById('view-admin').classList.remove('hidden');
+    window.checkOrder = async () => {
+      const code = document.getElementById('check-code').value;
+      const q = query(collection(db, "orders"), where("code", "==", code));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return alert("كود غير صحيح");
+      
+      const order = snapshot.docs[0].data();
+      if (order.status === "confirmed") {
+        const cQuery = query(collection(db, "craftsmen"), where("name", "==", order.craftsman));
+        const cSnap = await getDocs(cQuery);
+        const craft = cSnap.docs[0].data();
+        document.getElementById('order-result').innerHTML = `<div style="background:#dcfce7; padding:15px; border-radius:10px; color:#166534">تم التأكيد! هاتف الحرفي: ${craft.phone}</div>`;
+      } else {
+        document.getElementById('order-result').innerHTML = "الطلب قيد المراجعة، يرجى الانتظار.";
+      }
     };
 
-    window.checkAdmin = () => {
-      if (document.getElementById('admin-pass').value === "Sharkfish@2646") {
-        document.getElementById('login-box').classList.add('hidden');
-        document.getElementById('admin-panel').classList.remove('hidden');
-        loadOrders();
-      } else alert("كلمة سر خاطئة");
+    window.checkAdmin = () => { 
+      if(document.getElementById('admin-pass').value === "Sharkfish@2646") { 
+        document.getElementById('login-box').classList.add('hidden'); 
+        document.getElementById('admin-panel').classList.remove('hidden'); 
+        loadOrders(); 
+      } else alert("كلمة سر خاطئة"); 
+    };
+
+    window.approveOrder = async (id) => {
+      await updateDoc(doc(db, "orders", id), { status: "confirmed" });
+      alert("تم تأكيد الدفع"); loadOrders();
     };
 
     async function loadOrders() {
       const list = document.getElementById('orders-list');
       const orders = await getDocs(collection(db, "orders"));
       list.innerHTML = '';
-      orders.forEach(d => { const o = d.data(); list.innerHTML += `<div>كود: ${o.code} - ${o.craftsman}</div>`; });
+      orders.forEach(d => {
+        const o = d.data();
+        if(o.status !== "confirmed") list.innerHTML += `<div class="card">${o.code} - ${o.craftsman} <button onclick="approveOrder('${d.id}')" style="background:#10b981; color:white; border:none; padding:5px; border-radius:5px">تأكيد</button></div>`;
+      });
     }
 
-    window.loadAdminCraftsmen = async () => {
-      const list = document.getElementById('admin-craftsmen-list');
-      const docs = await getDocs(collection(db, "craftsmen"));
-      list.innerHTML = '';
-      docs.forEach((d) => {
-        const c = d.data();
-        list.innerHTML += `<div class="card">
-          ${c.name} <button onclick="deleteCraftsman('${d.id}')" style="background:red; color:white; border:none; padding:5px;">حذف</button>
-        </div>`;
+    window.saveFullProfile = async () => {
+      await addDoc(collection(db, "craftsmen"), { 
+        name: document.getElementById('reg-name').value, 
+        phone: document.getElementById('reg-phone').value,
+        city: document.getElementById('reg-city').value 
       });
+      alert("تم التسجيل بنجاح!"); location.reload();
     };
 
-    window.deleteCraftsman = async (id) => {
-      await deleteDoc(doc(db, "craftsmen", id));
-      alert("تم الحذف"); loadAdminCraftsmen();
+    window.filterData = () => { 
+      const q = document.getElementById('search-text').value.toLowerCase(); 
+      renderList(allCraftsmen.filter(c => c.name.toLowerCase().includes(q))); 
     };
 
-    document.getElementById('btn-customer').onclick = () => { document.getElementById('view-customer').classList.remove('hidden'); document.getElementById('view-craftsman').classList.add('hidden'); document.getElementById('view-admin').classList.add('hidden'); };
-    document.getElementById('btn-craftsman').onclick = () => { document.getElementById('view-craftsman').classList.remove('hidden'); document.getElementById('view-customer').classList.add('hidden'); document.getElementById('view-admin').classList.add('hidden'); };
+    window.loadAdminCraftsmen = async () => { 
+      const docs = await getDocs(collection(db, "craftsmen")); 
+      let html = ''; 
+      docs.forEach(d => html += `<div class="card">${d.data().name} <button onclick="deleteCraftsman('${d.id}')" style="background:red; color:white; border:none; padding:5px; border-radius:5px">حذف</button></div>`); 
+      document.getElementById('admin-craftsmen-list').innerHTML = html; 
+    };
+
+    window.deleteCraftsman = async (id) => { await deleteDoc(doc(db, "craftsmen", id)); loadAdminCraftsmen(); };
+    window.closeModal = () => document.getElementById('payment-modal').style.display = 'none';
 
     initData();
   </script>
