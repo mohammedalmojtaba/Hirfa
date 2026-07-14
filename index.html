@@ -11,25 +11,6 @@
   <div class="max-w-md mx-auto p-4 min-h-screen">
     
     <header class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-8 rounded-3xl text-center mb-8 shadow-2xl border border-slate-700">
-      <div class="w-24 h-24 mx-auto mb-4 drop-shadow-[0_0_15px_rgba(245,158,11,0.3)]">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
-          <rect width="200" height="200" rx="42" fill="#090D16"/>
-          <g transform="translate(0, -5)">
-            <path d="M62,62 L54,67 L62,72 Z" fill="#94A3B8"/>
-            <path d="M62,77 L54,82 L62,87 Z" fill="#94A3B8"/>
-            <path d="M62,92 L54,97 L62,102 Z" fill="#94A3B8"/>
-            <path d="M62,107 L54,112 L62,117 Z" fill="#94A3B8"/>
-            <rect x="62" y="50" width="16" height="70" rx="4" fill="#94A3B8" />
-            <rect x="122" y="64" width="16" height="56" rx="4" fill="#B45309" />
-            <rect x="120" y="48" width="28" height="12" rx="2" fill="#E2E8F0"/>
-            <rect x="122" y="60" width="16" height="5" fill="#E2E8F0"/>
-            <path d="M78,85 L106,85 L94,95 L122,95" stroke="#F59E0B" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.25"/>
-            <path d="M78,85 L106,85 L94,95 L122,95" stroke="#FBBF24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </g>
-          <text x="100" y="148" fill="#F8FAFC" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="18" text-anchor="middle">حِرفة</text>
-          <text x="100" y="174" fill="#F8FAFC" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="18" text-anchor="middle" letter-spacing="2">HIRFA</text>
-        </svg>
-      </div>
       <h1 class="text-3xl font-black tracking-tighter uppercase text-white">حِرفة</h1>
       <p class="text-amber-500 text-xs font-bold tracking-widest mt-2">منصة الخدمات التقنية</p>
     </header>
@@ -42,54 +23,31 @@
 
     <div id="loading" class="text-center font-bold p-10 text-slate-400">جاري الاتصال...</div>
 
-    <main id="view-customer" class="hidden space-y-6">
-      <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-        <h3 class="font-bold text-xs mb-3 text-emerald-600 uppercase tracking-wider">هل قمت بالتحويل؟ استعلم عن الرقم</h3>
-        <div class="flex gap-2">
-          <input id="search-order-id" type="text" placeholder="رقم الطلب..." class="border border-slate-200 p-3 rounded-xl text-xs flex-grow text-center bg-slate-50">
-          <button id="btn-check-order" class="bg-slate-900 text-white px-6 rounded-xl text-xs font-bold transition-all hover:bg-slate-800">استعلام</button>
-        </div>
-        <div id="order-result" class="mt-4 p-4 bg-emerald-50 rounded-2xl border border-emerald-100 text-xs hidden"></div>
-      </div>
-
-      <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
-        <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-2">البحث المتقدم</h3>
-        <div class="grid grid-cols-2 gap-3">
-          <select id="filter-city" class="w-full border border-slate-200 p-3 rounded-xl text-xs bg-slate-50">
-            <option value="">كل المدن</option>
-            <option value="بورتسودان">بورتسودان</option>
-            <option value="كسلا">كسلا</option>
-          </select>
-          <input id="filter-neighborhood" type="text" placeholder="الحي..." class="w-full border border-slate-200 p-3 rounded-xl text-xs bg-slate-50">
-        </div>
-        <input id="filter-job" type="text" placeholder="التخصص (سباك، كهربائي...)" class="w-full border border-slate-200 p-3 rounded-xl text-xs bg-slate-50">
-      </div>
-
+    <main id="view-customer" class="space-y-6">
       <h2 class="font-bold text-md text-slate-800">الفنيون المتاحون</h2>
       <div id="craftsmen-list" class="space-y-4"></div>
     </main>
 
     <section id="view-craftsman" class="hidden bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-      <h2 class="font-bold text-lg text-slate-900 mb-1">تسجيل حرفي جديد</h2>
-      <form id="form-register-craftsman" class="space-y-4 mt-6">
+      <h2 class="font-bold text-lg text-slate-900 mb-6">تسجيل حرفي جديد</h2>
+      <form id="form-register-craftsman" class="space-y-4">
         <input id="reg-name" type="text" placeholder="الاسم الكامل" required class="w-full border border-slate-200 p-4 rounded-xl text-xs">
         <input id="reg-phone" type="tel" placeholder="رقم الهاتف" required class="w-full border border-slate-200 p-4 rounded-xl text-xs">
         <input id="reg-job" type="text" placeholder="التخصص" required class="w-full border border-slate-200 p-4 rounded-xl text-xs">
+        <input id="reg-city" type="text" placeholder="المدينة" required class="w-full border border-slate-200 p-4 rounded-xl text-xs">
+        <input id="reg-neighborhood" type="text" placeholder="الحي" required class="w-full border border-slate-200 p-4 rounded-xl text-xs">
         <button type="submit" class="w-full bg-emerald-500 text-white p-4 rounded-xl text-sm font-bold">حفظ البيانات</button>
       </form>
     </section>
 
     <section id="view-admin" class="hidden bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-      <h2 class="font-bold text-lg text-slate-900 mb-6">لوحة الإدارة</h2>
-      <div id="admin-orders-list" class="space-y-4"></div>
+      <h2 class="font-bold text-lg text-slate-900">لوحة الإدارة</h2>
     </section>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const ADMIN_PASSWORD = "Swordfish@0502646188";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD1Ilg9Ot87m6lYG2mntiwoSXBPtQK6xsY",
@@ -103,38 +61,16 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const views = { customer: document.getElementById('view-customer'), craftsman: document.getElementById('view-craftsman'), admin: document.getElementById('view-admin') };
-    const buttons = { customer: document.getElementById('btn-customer'), craftsman: document.getElementById('btn-craftsman'), admin: document.getElementById('btn-admin') };
-
-    function switchTab(tab) {
-      Object.keys(views).forEach(key => {
-        if (key === tab) {
-          views[key].classList.remove('hidden');
-          buttons[key].className = "py-3 px-2 rounded-2xl text-xs font-bold bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 transition-all";
-        } else {
-          views[key].classList.add('hidden');
-          buttons[key].className = "py-3 px-2 rounded-2xl text-xs font-bold bg-white text-slate-900 border border-slate-200 transition-all";
-        }
-      });
-    }
-
-    buttons.customer.addEventListener('click', () => switchTab('customer'));
-    buttons.craftsman.addEventListener('click', () => switchTab('craftsman'));
-    buttons.admin.addEventListener('click', () => {
-      const pass = prompt("أدخل كلمة مرور الإدارة:");
-      if (pass === ADMIN_PASSWORD) {
-        switchTab('admin');
-      } else {
-        alert("كلمة مرور غير صحيحة!");
-      }
-    });
-
-    // تحميل البيانات الأولي
-    async function init() {
-      document.getElementById('loading').style.display = 'none';
-      views.customer.classList.remove('hidden');
-    }
-    init();
-  </script>
-</body>
-</html>
+    // تسجيل الحرفي
+    document.getElementById('form-register-craftsman').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        await addDoc(collection(db, "craftsmen"), {
+          name: document.getElementById('reg-name').value,
+          phone: document.getElementById('reg-phone').value,
+          job: document.getElementById('reg-job').value,
+          city: document.getElementById('reg-city').value,
+          neighborhood: document.getElementById('reg-neighborhood').value,
+          createdAt: new Date()
+        });
+        alert("تم التس
