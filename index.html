@@ -17,6 +17,7 @@
     .card { background: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
     input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 12px; box-sizing: border-box; }
     .btn-action { background: #0ea5e9; color: white; width: 100%; padding: 12px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .btn-danger { background: #ef4444; color: white; padding: 5px 10px; border-radius: 8px; border: none; cursor: pointer; font-size: 12px; }
     .btn-save { background: #10b981; color: white; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
     .hidden { display: none; }
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
@@ -45,7 +46,6 @@
       <button id="btn-admin" class="nav-btn" onclick="switchTab('admin')">الإدارة</button>
     </div>
 
-    <!-- العميل -->
     <main id="view-customer">
       <div class="card">
         <h3>هل لديك كود طلب؟</h3>
@@ -56,7 +56,6 @@
       <div id="craftsmen-list"></div>
     </main>
 
-    <!-- التسجيل -->
     <section id="view-craftsman" class="hidden">
       <div class="card">
         <h3>تسجيل حرفي جديد</h3>
@@ -65,11 +64,11 @@
         <input type="text" id="reg-city" placeholder="المدينة">
         <input type="text" id="reg-neighborhood" placeholder="الحي">
         <input type="text" id="craft-name" placeholder="نوع الحرفة">
+        <input type="number" id="reg-price" placeholder="سعر الخدمة (بالجنيه)">
         <button class="btn-save" onclick="saveFullProfile()">حفظ البيانات</button>
       </div>
     </section>
 
-    <!-- الإدارة -->
     <section id="view-admin" class="hidden">
       <div class="card" id="login-box">
         <h3>دخول الإدارة</h3>
@@ -79,11 +78,13 @@
       <div id="admin-panel" class="hidden">
         <h3>الطلبات المعلقة</h3>
         <div id="orders-list"></div>
+        <hr>
+        <h3>إدارة الحرفيين</h3>
+        <div id="craftsmen-admin-list"></div>
       </div>
     </section>
   </div>
 
-  <!-- رسالة الدفع -->
   <div id="payment-modal" class="modal">
     <div class="modal-content">
       <h3 style="color:#10b981">تم إرسال الطلب بنجاح!</h3>
@@ -100,7 +101,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const db = getFirestore(initializeApp({
       apiKey: "AIzaSyD1Ilg9Ot87m6lYG2mntiwoSXBPtQK6xsY",
@@ -122,19 +123,16 @@
       const code = document.getElementById('check-code').value.trim();
       const q = query(collection(db, "orders"), where("code", "==", code));
       const snapshot = await getDocs(q);
-      
-      if (snapshot.empty) return alert("كود غير صحيح، يرجى التأكد من الرقم.");
+      if (snapshot.empty) return alert("كود غير صحيح.");
       
       const order = snapshot.docs[0].data();
       if (order.status === "confirmed") {
         const cQ = query(collection(db, "craftsmen"), where("name", "==", order.craftsman));
         const cSnap = await getDocs(cQ);
-        if(!cSnap.empty){
-            const craft = cSnap.docs[0].data();
-            document.getElementById('order-result').innerHTML = `<div style="background:#dcfce7; padding:15px; border-radius:10px; color:#166534">تم التأكيد! هاتف الحرفي: ${craft.phone}</div>`;
-        }
+        const craft = cSnap.docs[0].data();
+        document.getElementById('order-result').innerHTML = `<div style="background:#dcfce7; padding:15px; border-radius:10px; color:#166534">تم التأكيد! هاتف الحرفي: ${craft.phone}</div>`;
       } else {
-        document.getElementById('order-result').innerHTML = "الطلب قيد المراجعة، يرجى انتظار تأكيد الإدارة.";
+        document.getElementById('order-result').innerHTML = "الطلب قيد المراجعة.";
       }
     };
 
@@ -143,6 +141,7 @@
         document.getElementById('login-box').classList.add('hidden');
         document.getElementById('admin-panel').classList.remove('hidden');
         loadOrders();
+        loadAdminCraftsmen();
       } else alert("كلمة سر خاطئة");
     };
 
@@ -151,17 +150,38 @@
       const q = query(collection(db, "orders"), where("status", "==", "pending"));
       const snapshot = await getDocs(q);
       list.innerHTML = '';
-      if(snapshot.empty) list.innerHTML = "<p>لا توجد طلبات معلقة حالياً.</p>";
       snapshot.forEach(d => {
         const o = d.data();
-        list.innerHTML += `<div class="card">${o.code} - <b>${o.craftsman}</b> <button onclick="approveOrder('${d.id}')" class="btn-save" style="padding:5px;">تأكيد</button></div>`;
+        list.innerHTML += `<div class="card" style="display:flex; justify-content:space-between; align-items:center">
+          ${o.code} - <b>${o.craftsman}</b> 
+          <button onclick="approveOrder('${d.id}')" class="btn-save" style="width:auto; padding:5px;">تأكيد</button>
+        </div>`;
       });
     }
 
     window.approveOrder = async (id) => {
       await updateDoc(doc(db, "orders", id), { status: "confirmed" });
-      alert("تم تأكيد الدفع بنجاح!"); 
-      loadOrders();
+      alert("تم التأكيد!"); loadOrders();
+    };
+
+    async function loadAdminCraftsmen() {
+        const list = document.getElementById('craftsmen-admin-list');
+        const q = await getDocs(collection(db, "craftsmen"));
+        list.innerHTML = '';
+        q.forEach(d => {
+            const c = d.data();
+            list.innerHTML += `<div class="card" style="display:flex; justify-content:space-between; align-items:center">
+                ${c.name} (${c.craft})
+                <button onclick="deleteCraftsman('${d.id}')" class="btn-danger">حذف</button>
+            </div>`;
+        });
+    }
+
+    window.deleteCraftsman = async (id) => {
+        if(confirm("هل أنت متأكد من حذف هذا الحرفي؟")) {
+            await deleteDoc(doc(db, "craftsmen", id));
+            loadAdminCraftsmen();
+        }
     };
 
     window.requestContact = async (name) => {
@@ -177,7 +197,8 @@
         phone: document.getElementById('reg-phone').value,
         city: document.getElementById('reg-city').value,
         neighborhood: document.getElementById('reg-neighborhood').value,
-        craft: document.getElementById('craft-name').value
+        craft: document.getElementById('craft-name').value,
+        price: document.getElementById('reg-price').value
       });
       alert("تم التسجيل!"); location.reload();
     };
@@ -188,7 +209,13 @@
         list.innerHTML = '';
         q.forEach(d => {
             const c = d.data();
-            list.innerHTML += `<div class="card"><strong>${c.name}</strong><br><small>📍 ${c.city} - ${c.neighborhood}</small><br><small>🛠 ${c.craft}</small><button class="btn-action" onclick="requestContact('${c.name}')">طلب</button></div>`;
+            list.innerHTML += `<div class="card">
+                <strong>${c.name}</strong><br>
+                <small>📍 ${c.city} - ${c.neighborhood}</small><br>
+                <small>🛠 ${c.craft}</small><br>
+                <small>💰 ${c.price} جنيه</small>
+                <button class="btn-action" onclick="requestContact('${c.name}')">طلب</button>
+            </div>`;
         });
     }
     loadCraftsmen();
